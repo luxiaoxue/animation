@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+	<!--单设置ie以最新的内核来渲染页面-->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+	<!--设置视口宽=设备宽，初始化比例=1.0 最小缩放 最大缩放 禁止用户缩放-->
+	<meta name="format-detection" content="email=no">
+	<!--禁用自动识别电话邮箱-->
+	<meta name="format-detection" content="telephone=no">
+	<title>图形绘制 加载动画</title>
+	<style>
+	body{
+		background:#020438;
+	}
+	*{
+		margin:0;
+		padding:0;
+
+	}
+		.box{
+			width: 280px;
+			height: 280px;
+			background: #020438;
+			position: absolute;/*绝对定位  relative 相对定位*/
+			top: 50%;
+			left: 50%;
+			/*中心点*/
+			-webkit-transform: translate(-50%,-50%);
+			transform: translate(-50%,-50%);
+			border-radius: 100%;
+			//overflow: hidden;
+			
+		}
+		.box .percent{
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			left: 0px;
+			top: 0px;
+			font-size: 64px;
+			color: #fff;
+			display: -webkit-flex;
+			display: flex;
+			-webkit-justify-content:center;
+			justify-content:center;
+			-webkit-align-items: center;
+    		align-items: center;
+    		z-index: 99;
+		}
+		.box .water{
+			width:100%;
+			height:100%;
+			position:absolute;
+			left:0;
+			top:0;
+			background:#4C6AE2;
+			z-index:2; 
+			-webkit-transform:translate(0,100%);
+			transform:translate(0,100%);
+		}
+		.box .water .water_wave{
+			width:200%;
+			position:absolute;
+			bottom:100%;
+		}
+		.box .water .water_wave_back{
+			right:0;
+			fill:#4dEEFF;
+			animation:wave_back 1.4s infinite linear;
+		}
+		.box .water .water_wave_come{
+			left:0;
+			fill:#4D6DE3;
+			animation:wave_come 1.4s infinite linear;
+		}
+		@-webkit-@keyframes wave_back{
+			to{
+				transform:translate(50%,0);
+			}
+		}
+		@keyframes wave_back{
+			to{
+				transform:translate(50%,0);
+			}
+		}
+		@-webkit-@keyframes wave_come{
+			to{
+				transform:translate(-50%,0);
+			}
+		}
+		@keyframes wave_come{
+			to{
+				transform:translate(-50%,0);
+			}
+		}
+	</style>
+</head>
+<body>
+	<svg version="1.1" x="0px" y="0px" style=" display: none;">
+		<symbol id="wave">
+		    <path d="M420,20c21.5-0.4,38.8-2.5,51.1-4.5c13.4-2.2,26.5-5.2,27.3-5.4C514,6.5,518,4.7,528.5,2.7c7.1-1.3,17.9-2.8,31.5-2.7c0,0,0,0,0,0v20H420z"></path>
+		    <path d="M420,20c-21.5-0.4-38.8-2.5-51.1-4.5c-13.4-2.2-26.5-5.2-27.3-5.4C326,6.5,322,4.7,311.5,2.7C304.3,1.4,293.6-0.1,280,0c0,0,0,0,0,0v20H420z"></path>
+		    <path d="M140,20c21.5-0.4,38.8-2.5,51.1-4.5c13.4-2.2,26.5-5.2,27.3-5.4C234,6.5,238,4.7,248.5,2.7c7.1-1.3,17.9-2.8,31.5-2.7c0,0,0,0,0,0v20H140z"></path>
+		    <path d="M140,20c-21.5-0.4-38.8-2.5-51.1-4.5c-13.4-2.2-26.5-5.2-27.3-5.4C46,6.5,42,4.7,31.5,2.7C24.3,1.4,13.6-0.1,0,0c0,0,0,0,0,0l0,20H140z"></path>
+		</symbol>
+	</svg>
+	<div class="box">
+		<div class="percent">
+			<div class="percentNum" id="count">0</div>
+			<div class="percentB">%</div>
+		</div>
+		<div class="water" id="water">
+			<!-- viewBox x y 宽 高 -->
+			<svg viewBox="0 0 560 20" class="water_wave water_wave_back">
+				<use xlink:href="#wave"></use>
+			</svg>
+			<svg viewBox="0 0 560 20" class="water_wave water_wave_come">
+				<use xlink:href="#wave"></use>
+			</svg>
+		</div>
+	</div>
+	<script src="js/jquery.js"></script>
+	<script>
+		var count=document.getElementById('count');//得到盒子
+		var water=document.getElementById('water');//水
+		var percent = count.innerText;//得到盒子里面的值
+		var interval;//定一个定时器
+		interval = setInterval(function(){//用定时器
+			percent++;//数字
+			count.innerHTML = percent;
+			water.style.transform = "translate(0,"+(100-percent)+"%)";
+			//判断
+			if(percent ==100){
+					clearInterval(interval);//关掉定时器 到100% 自定停止
+			}
+		},60);
+
+		var arr=[1,2,5,2,8,7,5];
+		function num(arr){
+			var newarr=[];
+			for(var i=0;i<arr.length;i++){
+				if(newarr.indexOf(arr[i])==-1){
+					newarr.push(arr[i]);
+				}
+				console.log(newarr,newarr.indexOf(arr[i]))	
+			}
+			return newarr;
+		}
+		console.log(num(arr));
+//方法一：
+		Array.prototype.unique1 = function(){
+		 var res = [this[0]];
+		 for(var i = 1; i < this.length; i++){
+			  var repeat = false;
+			  for(var j = 0; j < res.length; j++){
+			   if(this[i] == res[j]){
+			    	repeat = true;
+			    	break;
+			   }
+			  }
+			  if(!repeat){
+			   		res.push(this[i]);
+			  }
+		 }
+		 return res;
+		}
+	var arr = [1, 'a', 'a', 'b', 'd', 'e', 'e', 1, 0]
+alert(arr.unique1());
+//方法二：
+		Array.prototype.unique2 = function(){
+			 this.sort(); //先排序
+			 var res = [this[0]];
+			 for(var i = 1; i < this.length; i++){
+				  if(this[i] !== res[res.length - 1]){
+				   		res.push(this[i]);
+				  }
+			 }
+			 return res;
+		}
+		var arr = [1, 'a', 'a', 'b', 'd', 'e', 'e', 1, 0]
+		alert(arr.unique2());
+//方法三：
+		Array.prototype.unique3 = function(){
+			 var res = [];
+			 var json = {};
+ 			for(var i = 0; i < this.length; i++){
+				  if(!json[this[i]]){
+					   res.push(this[i]);
+					   json[this[i]] = 1;
+				  }
+			 }
+ 			return res;
+		}
+
+var arr = [112,112,34,'你好',112,112,34,'你好','str','str1'];
+alert(arr.unique3());
+
+
+function sum(a, b) {
+	  return a+b
+
+}
+	var result = sum(2,5)
+
+	alert(result)
+
+
+
+	</script>
+</body>
+</html>

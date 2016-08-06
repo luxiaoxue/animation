@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		div{
+			width:100px;
+			height:100px;
+		}
+
+
+	</style>
+</head>
+<body>
+	<input id="input_test1" type="button" value="click test1">
+	<input type="button" id="input_test2" value="click test2">
+	<script>
+		function test(){
+			this.value="click test";
+			this.clickTest=function(){
+				alert(this.value)
+			}
+		}
+		var T=new test();
+		document.getElementById("input_test1").onclick=function(){
+			T.clickTest();
+		}
+		document.getElementById("input_test2").onclick=T.clickTest;
+		//-------------------------------------
+		for(var i=0;i<10;i++){
+			var obj=document.createElement("div");
+			obj.innerHTML=i;
+			obj.onclick=function(){
+				alert(i);
+				document.body.appendChild(obj);
+			}
+		}
+
+		/*var foo="11"+2-"1";console.log(foo)和console.log(typeof(foo))的打印结果是（   ）*/
+		var foo="11"+2-"1";console.log(foo) //111
+		console.log(typeof(foo))
+//-------------------------------------------------------------
+		var x=1;
+      var y=0;
+      var z=0;
+      function add(n){n=n+1;}
+      y=add(x);//2
+     	// console.log(y) undefined 没有return
+      function add(n){n=n+3;}
+      z=add(x);//5
+      console.log(x+','+y+','+z);//的打印结果是（    ）
+      //1,undefined,undefined
+
+ //----------------------------------------------------------
+ function fn(a,b){
+ console.log(this+','+a)
+}
+fn.call("hello",5,10);//打印结果是（ hello,5  ）
+
+//--------------------------------------------------------------
+function A( age, name ){ 
+  this.age = age; 
+  this.name = name; 
+} 
+
+A.prototype.show = function(){ 
+  alert('父级方法'); 
+} 
+
+function B(age,name,job){ 
+  // 填写代码实现B对象继承A对象
+ 
+ // A.apply(this,arguments); 
+  this.job = job; 
+} 
+
+var b = new B(15,'狼侠','侠客'); 
+//b.show();//注释处的代码可以是（    ）
+console.log(13 | 5) //13
+console.log(13 & 5) //5
+console.log(13 >> 2) //3
+console.log(-13 >> 2) //-4
+	</script>
+</body>
+</html>
